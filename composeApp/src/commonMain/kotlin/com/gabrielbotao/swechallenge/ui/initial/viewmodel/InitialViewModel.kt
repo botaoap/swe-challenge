@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gabrielbotao.swechallenge.domain.usecase.GetLoggedInStatusUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.LoggedInState
+import com.gabrielbotao.swechallenge.domain.usecase.SaveLoggedInStatusUseCase
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInGoToFlow
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInUIState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class InitialViewModel(
-    private val getLoggedInStatusUseCase: GetLoggedInStatusUseCase
+    private val getLoggedInStatusUseCase: GetLoggedInStatusUseCase,
+    private val saveLoggedInStatusUseCase: SaveLoggedInStatusUseCase,
 ) : ViewModel() {
     private val loggedInUIState = MutableStateFlow<LoggedInUIState>(LoggedInUIState.Loading)
     val loggedInState: StateFlow<LoggedInUIState> = loggedInUIState
@@ -25,7 +27,10 @@ class InitialViewModel(
                 when (state) {
                     LoggedInState.Loading -> loggedInUIState.value = LoggedInUIState.Loading
 
-                    is LoggedInState.Success -> loggedInUIState.value = LoggedInUIState.Success(state.isLoggedIn)
+                    is LoggedInState.Success -> {
+                        saveLoggedInStatus(state.isLoggedIn)
+                        loggedInUIState.value = LoggedInUIState.Success(state.isLoggedIn)
+                    }
 
                     LoggedInState.Error -> loggedInUIState.value = LoggedInUIState.Error
                 }
@@ -40,6 +45,12 @@ class InitialViewModel(
             } else {
                 goToFlowState.value = LoggedInGoToFlow.GoToLoginScreen
             }
+        }
+    }
+
+    private fun saveLoggedInStatus(isLoggedIn: Boolean) {
+        viewModelScope.launch {
+            saveLoggedInStatusUseCase.execute(isLoggedIn)
         }
     }
 }
