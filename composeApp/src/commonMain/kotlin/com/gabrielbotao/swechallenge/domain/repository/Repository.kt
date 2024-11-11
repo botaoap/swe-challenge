@@ -1,5 +1,6 @@
 package com.gabrielbotao.swechallenge.domain.repository
 
+import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {
@@ -8,4 +9,10 @@ interface Repository {
 
     /** This function save status of is_logged_in key in DataStore */
     suspend fun saveLoggedInStatus(isLoggedIn: Boolean)
+
+    /** This function login in app */
+    suspend fun postLogin(
+        username: String,
+        password: String
+    ) : HttpResponse
 }
