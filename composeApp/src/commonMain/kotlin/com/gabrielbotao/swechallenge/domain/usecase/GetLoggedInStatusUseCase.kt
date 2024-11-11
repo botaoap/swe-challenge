@@ -20,14 +20,11 @@ class GetLoggedInStatusUseCaseImpl(
         try {
             repository.getCurrentLoggedInStatus().map { isLoggedIn ->
                 isLoggedIn
-            }.let { response ->
-                response.collect { value ->
-                    println("Key isLogged(GetLoggedInStatusUseCase): $value")
-                    emit(LoggedInState.Success(value))
-                }
+            }.collect { response ->
+                println("Key isLogged(GetLoggedInStatusUseCase): $response")
+                emit(LoggedInState.Success(response))
             }
         } catch (e: Exception) {
-            e
             println("Key isLogged(GetLoggedInStatusUseCase): Error $e")
             emit(LoggedInState.Error)
         }
