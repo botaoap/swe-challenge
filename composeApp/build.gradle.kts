@@ -41,6 +41,10 @@ kotlin {
             implementation(libs.core.splashscreen)
 
             implementation(libs.ktor.client.okhttp)
+
+            implementation(libs.bumptech.glide.compose)
+
+            implementation(libs.coil.network.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -63,6 +67,8 @@ kotlin {
             api(libs.datastore.preferences)
 
             implementation(libs.bundles.ktor)
+
+            implementation(libs.coil.compose)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
