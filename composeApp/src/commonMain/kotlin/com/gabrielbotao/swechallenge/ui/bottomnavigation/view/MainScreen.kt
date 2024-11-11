@@ -1,12 +1,13 @@
 package com.gabrielbotao.swechallenge.ui.bottomnavigation.view
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,12 +27,12 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = { BottomNavigationBar(bottomNacController) }
-    ) {
+    ) { innerPadding ->
         NavHost(
             navController = bottomNacController,
             startDestination = BottomNavItem.Home.route
         ) {
-            composable(BottomNavItem.Home.route) { HomeScreen() }
+            composable(BottomNavItem.Home.route) { HomeScreen(modifier = Modifier.padding(innerPadding)) }
             composable(BottomNavItem.Platform.route) { PlatformScreen() }
             composable(BottomNavItem.Profile.route) { ProfileScreen(navController = mainNavController) }
         }
@@ -44,7 +45,7 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavItem.Home, BottomNavItem.Platform, BottomNavItem.Profile
     )
     BottomNavigation(
-        backgroundColor = MaterialTheme.colors.primary,
+        backgroundColor = Color.Gray,
         contentColor = Color.White
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
