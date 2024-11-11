@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gabrielbotao.swechallenge.navigation.RoutesEnum
+import com.gabrielbotao.swechallenge.ui.login.viewmodel.LoginViewModel
 import com.gabrielbotao.swechallenge.ui.profile.viewmodel.ProfileViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -23,6 +24,7 @@ fun ProfileScreen(
     navController: NavHostController
 ) {
     val viewModel = koinViewModel<ProfileViewModel>()
+    val loginViewModel = koinViewModel<LoginViewModel>()
 
     Column(
         modifier = modifier
@@ -34,6 +36,7 @@ fun ProfileScreen(
         Button(
             onClick = {
                 viewModel.saveLoggedInStatus(false)
+                loginViewModel.logout()
                 navController.navigate(RoutesEnum.LOGIN.key) {
                     popUpTo(RoutesEnum.MAIN_SCREEN.key) { inclusive = true }
                 }
