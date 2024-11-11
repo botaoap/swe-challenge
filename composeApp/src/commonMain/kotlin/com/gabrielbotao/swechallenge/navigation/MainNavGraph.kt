@@ -14,6 +14,7 @@ import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInGoToFlow
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInUIState
 import com.gabrielbotao.swechallenge.ui.initial.viewmodel.InitialViewModel
 import com.gabrielbotao.swechallenge.ui.login.view.LoginScreen
+import com.gabrielbotao.swechallenge.util.Util
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -21,29 +22,34 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun MainNavGraph() {
     val mainNavController = rememberNavController()
     val viewModel = koinViewModel<InitialViewModel>()
+    val dataState = viewModel.loggedInState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true) {
-        viewModel.getLoggedInStatus()
-        println("Key isLogged(getLoggedInStatus): ----")
+    LaunchedEffect(Unit) {
+        if (Util.resetCountOnDestroy == 0) {
+            Util.resetCountOnDestroy++
+            viewModel.getLoggedInStatus()
+            println("Key isLogged(getLoggedInStatus): ---- ${dataState.value}")
+        }
     }
 
-    viewModel.loggedInState.collectAsStateWithLifecycle().let { state ->
-        state.value.let {
-            when (it) {
-                LoggedInUIState.Loading -> {
-                    // TODO: do some loading effects
-                    println("Key isLogged(Loading): loading")
-                }
+    dataState.value.let { state ->
+        when (state) {
+            LoggedInUIState.Loading -> {
+                // TODO: do some loading effects
+                println("Key isLogged(Loading): loading")
+            }
 
-                is LoggedInUIState.Success -> {
-                    println("Key isLogged(Success): ${it.isLoggedIn}")
-                    viewModel.goFlow(it.isLoggedIn)
+            is LoggedInUIState.Success -> {
+                println("Key isLogged(Success): ${state.isLoggedIn}")
+                if (Util.resetCountOnDestroy == 1) {
+                    Util.resetCountOnDestroy++
+                    viewModel.goFlow(state.isLoggedIn)
                 }
+            }
 
-                LoggedInUIState.Error -> {
-                    // TODO: do error scenario
-                    println("Key isLogged(Error): error")
-                }
+            LoggedInUIState.Error -> {
+                // TODO: do error scenario
+                println("Key isLogged(Error): error")
             }
         }
     }
