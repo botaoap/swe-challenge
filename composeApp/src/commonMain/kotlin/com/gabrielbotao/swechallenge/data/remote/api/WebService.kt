@@ -11,4 +11,9 @@ interface WebService {
         username: String,
         password: String
     ): HttpResponse
+
+    /**
+     * @see <a href="https://dummyjson.com/docs/products#products-all">Products documentation</href>
+     */
+    suspend fun getProducts(): HttpResponse
 }

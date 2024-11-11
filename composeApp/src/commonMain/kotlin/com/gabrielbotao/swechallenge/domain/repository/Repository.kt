@@ -15,4 +15,7 @@ interface Repository {
         username: String,
         password: String
     ) : HttpResponse
+
+    /** This function get list of products */
+    suspend fun getProducts(): HttpResponse
 }

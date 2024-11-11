@@ -30,4 +30,9 @@ class WebServiceImpl(
             println(response.bodyAsText())
             response
         }
+
+    override suspend fun getProducts(): HttpResponse =
+        httpClient.get(
+            urlString = "${UrlProvider.BASE_URL}/products"
+        )
 }

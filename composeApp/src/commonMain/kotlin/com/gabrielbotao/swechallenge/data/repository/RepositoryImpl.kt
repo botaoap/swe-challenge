@@ -36,4 +36,7 @@ class RepositoryImpl(
             username = username,
             password = password
         )
+
+    override suspend fun getProducts(): HttpResponse =
+        webService.getProducts()
 }
