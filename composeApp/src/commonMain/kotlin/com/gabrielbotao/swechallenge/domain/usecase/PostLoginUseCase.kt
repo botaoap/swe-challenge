@@ -29,6 +29,8 @@ class PostLoginUseCaseImpl(
                 when (response.status.value) {
                     200 -> {
                         println("Key isLogged(PostLoginUseCase): ${response.bodyAsText()}")
+                        repository.saveUserData(mapper.getLogin(response.body()))
+                        println("Key saveUserData(PostLoginUseCase): ${response.bodyAsText()}")
                         emit(LoginState.Success(mapper.getLogin(response.body())))
                     }
 
