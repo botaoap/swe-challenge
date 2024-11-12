@@ -12,13 +12,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class InitialViewModel(
-    private val getLoggedInStatusUseCase: GetLoggedInStatusUseCase,
-    private val saveLoggedInStatusUseCase: SaveLoggedInStatusUseCase,
+    private val getLoggedInStatusUseCase: GetLoggedInStatusUseCase
 ) : ViewModel() {
     private val loggedInUIState = MutableStateFlow<LoggedInUIState>(LoggedInUIState.Loading)
     val loggedInState: StateFlow<LoggedInUIState> = loggedInUIState
 
-    private val goToFlowState = MutableStateFlow<LoggedInGoToFlow>(LoggedInGoToFlow.GoToLoginScreen)
+    private val goToFlowState = MutableStateFlow<LoggedInGoToFlow>(LoggedInGoToFlow.Loading)
     val goToFlow: StateFlow<LoggedInGoToFlow> = goToFlowState
 
     fun getLoggedInStatus() {
@@ -28,7 +27,6 @@ class InitialViewModel(
                     LoggedInState.Loading -> loggedInUIState.value = LoggedInUIState.Loading
 
                     is LoggedInState.Success -> {
-                        saveLoggedInStatus(state.isLoggedIn)
                         loggedInUIState.value = LoggedInUIState.Success(state.isLoggedIn)
                     }
 
@@ -45,12 +43,6 @@ class InitialViewModel(
             } else {
                 goToFlowState.value = LoggedInGoToFlow.GoToLoginScreen
             }
-        }
-    }
-
-    private fun saveLoggedInStatus(isLoggedIn: Boolean) {
-        viewModelScope.launch {
-            saveLoggedInStatusUseCase.execute(isLoggedIn)
         }
     }
 }
