@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gabrielbotao.swechallenge.domain.usecase.GetLoggedInStatusUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.LoggedInState
-import com.gabrielbotao.swechallenge.domain.usecase.SaveLoggedInStatusUseCase
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInGoToFlow
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInUIState
 import kotlinx.coroutines.flow.MutableStateFlow
