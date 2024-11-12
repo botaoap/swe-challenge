@@ -9,6 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.gabrielbotao.swechallenge.components.ErrorComponent
+import com.gabrielbotao.swechallenge.components.LoadingComponent
 import com.gabrielbotao.swechallenge.ui.bottomnavigation.view.MainScreen
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInGoToFlow
 import com.gabrielbotao.swechallenge.ui.initial.uistate.LoggedInUIState
@@ -34,23 +36,22 @@ fun MainNavGraph() {
 
     dataState.value.let { state ->
         when (state) {
-            LoggedInUIState.Loading -> {
-                // TODO: do some loading effects
-                println("Key isLogged(Loading): loading")
-            }
+            LoggedInUIState.Loading -> LoadingComponent()
 
             is LoggedInUIState.Success -> {
-                println("Key isLogged(Success): ${state.isLoggedIn}")
+                LoadingComponent()
                 if (Util.resetCountOnDestroy == 1) {
                     Util.resetCountOnDestroy++
                     viewModel.goFlow(state.isLoggedIn)
                 }
             }
 
-            LoggedInUIState.Error -> {
-                // TODO: do error scenario
-                println("Key isLogged(Error): error")
-            }
+            LoggedInUIState.Error -> ErrorComponent(
+                errorMessage = state.toString(),
+                onClickTryAgain = {
+                    viewModel.goFlow(false)
+                }
+            )
         }
     }
 
@@ -63,6 +64,8 @@ fun MainNavGraph() {
             LoggedInGoToFlow.GoToLoginScreen -> {
                 startSection(RoutesEnum.LOGIN.key, mainNavController)
             }
+
+            LoggedInGoToFlow.Loading -> startSection(RoutesEnum.LOADING.key, mainNavController)
         }
     }
 }
@@ -76,6 +79,7 @@ private fun startSection(
         navController = mainNavController,
         startDestination = startDestination
     ) {
+        composable(route = RoutesEnum.LOADING.key) { LoadingComponent() }
         composable(route = RoutesEnum.LOGIN.key) { LoginScreen(mainNavController) }
         composable(route = RoutesEnum.MAIN_SCREEN.key) { MainScreen(mainNavController) }
     }
