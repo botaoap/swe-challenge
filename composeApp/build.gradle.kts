@@ -70,6 +70,13 @@ kotlin {
 
             implementation(libs.coil.compose)
         }
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        androidUnitTest.dependencies {
+            implementation(libs.mockk)
+            implementation(libs.kotlinx.coroutines.test)
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(kotlin("test-annotations-common"))
@@ -77,9 +84,8 @@ kotlin {
 
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
-        }
-        nativeMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+
+            implementation(libs.mockative)
         }
     }
 }
