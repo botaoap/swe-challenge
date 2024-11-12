@@ -7,6 +7,9 @@ class LoginMapper {
     fun getLogin(
         response: LoginResponse
     ) = LoginModel(
-        username = response.username
+        username = response.username,
+        fullName = "${response.firstName} ${response.lastName}",
+        email = response.email,
+        image = response.image
     )
 }
