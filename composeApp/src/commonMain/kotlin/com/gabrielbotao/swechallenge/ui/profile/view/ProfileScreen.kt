@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gabrielbotao.swechallenge.navigation.RoutesEnum
 import com.gabrielbotao.swechallenge.ui.login.viewmodel.LoginViewModel
-import com.gabrielbotao.swechallenge.ui.profile.viewmodel.ProfileViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -23,26 +26,32 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    val viewModel = koinViewModel<ProfileViewModel>()
     val loginViewModel = koinViewModel<LoginViewModel>()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colors.background
     ) {
-        Text(text = "Profile Screen")
-        Button(
-            onClick = {
-                viewModel.saveLoggedInStatus(false)
-                loginViewModel.logout()
-                navController.navigate(RoutesEnum.LOGIN.key) {
-                    popUpTo(RoutesEnum.MAIN_SCREEN.key) { inclusive = true }
-                }
-            }
+        Column(
+            modifier = modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         ) {
-            Text("Logout")
+            Button(
+                onClick = {
+                    loginViewModel.logout()
+                    navController.navigate(RoutesEnum.LOGIN.key) {
+                        popUpTo(RoutesEnum.MAIN_SCREEN.key) { inclusive = true }
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(Color.Gray)
+            ) {
+                Text(
+                    color = Color.White,
+                    text = "Logout"
+                )
+            }
         }
     }
 }
