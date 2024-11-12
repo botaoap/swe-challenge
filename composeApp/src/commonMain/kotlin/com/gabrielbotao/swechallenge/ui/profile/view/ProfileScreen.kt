@@ -28,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil3.compose.rememberAsyncImagePainter
 import com.gabrielbotao.swechallenge.components.ErrorComponent
+import com.gabrielbotao.swechallenge.components.ImageComponent
 import com.gabrielbotao.swechallenge.components.LoadingComponent
 import com.gabrielbotao.swechallenge.domain.model.LoginModel
 import com.gabrielbotao.swechallenge.navigation.RoutesEnum
@@ -89,15 +90,7 @@ fun LayoutProfile(
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
     ) {
         Box(modifier.size(56.dp))
-        Image(
-            painter = rememberAsyncImagePainter(model = data.image),
-            contentDescription = "avatar",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .requiredSize(64.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = Color.LightGray)
-        )
+        ImageComponent(data.image, "avatar profile")
         Text(data.username)
         Text(data.fullName)
         Text(data.email)

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import com.gabrielbotao.swechallenge.components.ErrorComponent
+import com.gabrielbotao.swechallenge.components.ImageComponent
 import com.gabrielbotao.swechallenge.components.LoadingComponent
 import com.gabrielbotao.swechallenge.domain.model.CategoryGroup
 import com.gabrielbotao.swechallenge.ui.home.uistate.ProductsUIState
@@ -100,16 +101,7 @@ fun CategoryItem(
         horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = imageUrl),
-            contentDescription = "description",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .requiredSize(64.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = Color.LightGray)
-        )
-
+        ImageComponent(imageUrl)
         Text(
             text = text,
             fontSize = 14.sp,
