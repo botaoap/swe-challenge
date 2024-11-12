@@ -76,6 +76,9 @@ kotlin {
         androidUnitTest.dependencies {
             implementation(libs.mockk)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.mock)
+
+            implementation(libs.coil.network.okhttp)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -86,6 +89,8 @@ kotlin {
             implementation(compose.uiTest)
 
             implementation(libs.mockative)
+
+            implementation(libs.ktor.client.mock)
         }
     }
 }
