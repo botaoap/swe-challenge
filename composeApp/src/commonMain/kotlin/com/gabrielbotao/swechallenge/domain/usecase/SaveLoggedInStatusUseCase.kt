@@ -11,5 +11,6 @@ class SaveLoggedInStatusUseCaseImpl(
 ) : SaveLoggedInStatusUseCase {
     override suspend fun execute(isLoggedIn: Boolean) {
         repository.saveLoggedInStatus(isLoggedIn)
+        println("Key isLogged(SaveLoggedInStatusUseCase): $isLoggedIn")
     }
 }

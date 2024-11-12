@@ -4,6 +4,7 @@ import com.gabrielbotao.swechallenge.domain.mapper.ProductsMapper
 import com.gabrielbotao.swechallenge.domain.model.ProductsModel
 import com.gabrielbotao.swechallenge.domain.repository.Repository
 import io.ktor.client.call.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,14 +24,23 @@ class GetProductsUseCaseImpl(
         try {
             repository.getProducts().let { response ->
                 when (response.status.value) {
-                    200 -> emit(ProductsState.Success(mapper.getProducts(response.body())))
-                    else -> emit(ProductsState.Error)
+                    200 -> {
+                        println("Key isLogged(GetProductsUseCase): ${response.bodyAsText()}")
+                        emit(ProductsState.Success(mapper.getProducts(response.body())))
+                    }
+
+                    else -> {
+                        println("Key isLogged(GetProductsUseCase): ${response.bodyAsText()}")
+                        emit(ProductsState.Error)
+                    }
                 }
             }
         } catch (e: Exception) {
+            println("Key isLogged(GetProductsUseCase): $e")
             emit(ProductsState.Error)
         }
     }.onStart {
+        println("Key isLogged(GetProductsUseCase): Loading")
         emit(ProductsState.Loading)
     }.flowOn(coroutineDispatcher)
 

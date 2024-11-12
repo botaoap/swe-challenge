@@ -4,6 +4,7 @@ import com.gabrielbotao.swechallenge.domain.mapper.LoginMapper
 import com.gabrielbotao.swechallenge.domain.model.LoginModel
 import com.gabrielbotao.swechallenge.domain.repository.Repository
 import io.ktor.client.call.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,15 +27,23 @@ class PostLoginUseCaseImpl(
                 password = password
             ).let { response ->
                 when (response.status.value) {
-                    200 -> emit(LoginState.Success(mapper.getLogin(response.body())))
-                    else -> emit(LoginState.Error)
+                    200 -> {
+                        println("Key isLogged(PostLoginUseCase): ${response.bodyAsText()}")
+                        emit(LoginState.Success(mapper.getLogin(response.body())))
+                    }
+
+                    else -> {
+                        println("Key isLogged(PostLoginUseCase): ${response.bodyAsText()}")
+                        emit(LoginState.Error)
+                    }
                 }
             }
         } catch (e: Exception) {
-            println(e)
+            println("Key isLogged(PostLoginUseCase): $e")
             emit(LoginState.Error)
         }
     }.onStart {
+        println("Key isLogged(PostLoginUseCase): Loading")
         emit(LoginState.Loading)
     }.flowOn(coroutineDispatcher)
 }
