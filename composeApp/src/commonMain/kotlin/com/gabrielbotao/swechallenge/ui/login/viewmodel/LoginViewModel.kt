@@ -1,7 +1,6 @@
 package com.gabrielbotao.swechallenge.ui.login.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gabrielbotao.swechallenge.domain.usecase.LoginState
 import com.gabrielbotao.swechallenge.domain.usecase.PostLoginUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.SaveLoggedInStatusUseCase
@@ -27,12 +26,14 @@ class LoginViewModel(
     private fun createScope() = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     fun saveLoggedInStatus(isLoggedIn: Boolean) {
-        viewModelScope.launch {
+        activeScope = createScope()
+        activeScope.launch {
             saveLoggedInStatusUseCase.execute(isLoggedIn)
         }
     }
 
     fun login(username: String, password: String) {
+        activeScope = createScope()
         activeScope.launch {
             postLoginUseCase.execute(
                 username = username,
@@ -54,6 +55,5 @@ class LoginViewModel(
     fun logout() {
         loginUIState.value = LoginUIState.Logout
         activeScope.cancel()
-        activeScope = createScope()
     }
 }
