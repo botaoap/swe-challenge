@@ -8,6 +8,8 @@ import com.gabrielbotao.swechallenge.domain.usecase.GetLoggedInStatusUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.GetLoggedInStatusUseCaseImpl
 import com.gabrielbotao.swechallenge.domain.usecase.GetProductsUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.GetProductsUseCaseImpl
+import com.gabrielbotao.swechallenge.domain.usecase.GetUserDataUseCase
+import com.gabrielbotao.swechallenge.domain.usecase.GetUserDataUseCaseImpl
 import com.gabrielbotao.swechallenge.domain.usecase.PostLoginUseCase
 import com.gabrielbotao.swechallenge.domain.usecase.PostLoginUseCaseImpl
 import com.gabrielbotao.swechallenge.domain.usecase.SaveLoggedInStatusUseCase
@@ -45,6 +47,7 @@ private fun getUseCaseModule(module: Module) {
         single<SaveLoggedInStatusUseCase> { SaveLoggedInStatusUseCaseImpl(get()) }
         single<PostLoginUseCase> { PostLoginUseCaseImpl(get(), get(), Dispatchers.IO) }
         single<GetProductsUseCase> { GetProductsUseCaseImpl(get(), get(), Dispatchers.IO) }
+        single<GetUserDataUseCase> { GetUserDataUseCaseImpl(get(), Dispatchers.IO) }
     }
 }
 
