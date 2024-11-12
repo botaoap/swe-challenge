@@ -30,7 +30,6 @@ fun MainNavGraph() {
         if (Util.resetCountOnDestroy == 0) {
             Util.resetCountOnDestroy++
             viewModel.getLoggedInStatus()
-            println("Key isLogged(getLoggedInStatus): ---- ${dataState.value}")
         }
     }
 

@@ -26,9 +26,6 @@ class WebServiceImpl(
             setBody(
                 LoginRequest(username, password, 30)
             )
-        }.let { response ->
-            println(response.bodyAsText())
-            response
         }
 
     override suspend fun getProducts(): HttpResponse =

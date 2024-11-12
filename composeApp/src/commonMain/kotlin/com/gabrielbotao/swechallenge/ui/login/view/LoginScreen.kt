@@ -95,7 +95,6 @@ fun LoginScreen(
                 }
 
                 LoginUIState.Error -> {
-                    println("loginState (error): $state")
                     showLoading = false
                     viewModel.saveLoggedInStatus(false)
                     ErrorComponent(
