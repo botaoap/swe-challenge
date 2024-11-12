@@ -2,46 +2,202 @@
 
 package com.gabrielbotao.swechallenge.ui.login.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.gabrielbotao.swechallenge.components.ErrorComponent
+import com.gabrielbotao.swechallenge.components.LoadingComponent
 import com.gabrielbotao.swechallenge.navigation.RoutesEnum
+import com.gabrielbotao.swechallenge.ui.login.uistate.LoginUIState
 import com.gabrielbotao.swechallenge.ui.login.viewmodel.LoginViewModel
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import swechallenge.composeapp.generated.resources.Res
+import swechallenge.composeapp.generated.resources.button_logo
 
 @Composable
 fun LoginScreen(
     navController: NavHostController
 ) {
     val viewModel = koinViewModel<LoginViewModel>()
+    val dataState = viewModel.loginState.collectAsState()
+    val username by remember { mutableStateOf("") } // "emilys"
+    val password by remember { mutableStateOf("") } // "emilyspass"
+    var showLoading by remember { mutableStateOf(false) }
 
-    Scaffold {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
-        ) {
-            Text("Login Screen")
-            Button(
-                onClick = {
+    Scaffold { innerPadding ->
+        dataState.value.let { state ->
+            when (state) {
+                LoginUIState.Loading ->
+                    if (showLoading)
+                        LoadingComponent()
+                    else
+                        LayoutLogin(
+                            username = username,
+                            password = password,
+                            modifier = Modifier
+                                .padding(innerPadding),
+                            onClickEnter = { user, pws ->
+                                viewModel.login(user, pws)
+                                showLoading = true
+                            }
+                        )
+
+                is LoginUIState.Login -> {
+                    showLoading = false
                     viewModel.saveLoggedInStatus(true)
                     navController.navigate(RoutesEnum.MAIN_SCREEN.key) {
                         popUpTo(RoutesEnum.LOGIN.key) { inclusive = true }
                     }
                 }
-            ) {
-                Text("Go to main screen")
+
+                LoginUIState.Logout -> {
+                    showLoading = false
+                    viewModel.saveLoggedInStatus(false)
+                    LayoutLogin(
+                        username = username,
+                        password = password,
+                        modifier = Modifier
+                            .padding(innerPadding),
+                        onClickEnter = { user, pws ->
+                            viewModel.login(user, pws)
+                            showLoading = true
+                        }
+                    )
+                }
+
+                LoginUIState.Error -> {
+                    println("loginState (error): $state")
+                    showLoading = false
+                    viewModel.saveLoggedInStatus(false)
+                    ErrorComponent(
+                        errorMessage = state.toString(),
+                        modifier = Modifier,
+                        onClickTryAgain = {
+                            viewModel.logout()
+                        }
+                    )
+                }
             }
         }
     }
 }
+
+@Composable
+fun LayoutLogin(
+    username: String,
+    password: String,
+    modifier: Modifier,
+    onClickEnter: (username: String, password: String) -> Unit
+) {
+    val buttonText by remember { mutableStateOf("Enter") }
+    var usernameUpdate by remember { mutableStateOf(username) }
+    var passwordUpdate by remember { mutableStateOf(password) }
+    var usernameError by remember { mutableStateOf(false) }
+    var passwordError by remember { mutableStateOf(false) }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
+    ) {
+        Box(modifier = modifier.size(48.dp))
+        Image(
+            painter = painterResource(Res.drawable.button_logo),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+                .size(128.dp)
+        )
+        OutlinedTextField(
+            isError = usernameError,
+            value = usernameUpdate,
+            onValueChange = { usernameUpdate = it },
+            placeholder = { Text("User") },
+            keyboardActions = KeyboardActions.Default,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
+        )
+        OutlinedTextField(
+            isError = passwordError,
+            value = passwordUpdate,
+            onValueChange = { passwordUpdate = it },
+            placeholder = { Text("Password") },
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    if (getInputUserError(usernameUpdate) && getInputPwsError(passwordUpdate)) {
+                        usernameError = false
+                        passwordError = false
+                        onClickEnter.invoke(usernameUpdate, passwordUpdate)
+                    }
+                    usernameError = !getInputUserError(usernameUpdate)
+                    passwordError = !getInputPwsError(passwordUpdate)
+                },
+            ),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+        )
+        Button(
+            onClick = {
+                if (getInputUserError(usernameUpdate) && getInputPwsError(passwordUpdate)) {
+                    usernameError = false
+                    passwordError = false
+                    onClickEnter.invoke(usernameUpdate, passwordUpdate)
+                }
+                usernameError = !getInputUserError(usernameUpdate)
+                passwordError = !getInputPwsError(passwordUpdate)
+            },
+            colors = ButtonDefaults.buttonColors(Color.Gray)
+        ) {
+            Text(
+                color = Color.White,
+                text = buttonText
+            )
+        }
+    }
+}
+
+fun getInputUserError(
+    username: String
+): Boolean = username.isNotEmpty()
+
+fun getInputPwsError(
+    password: String
+): Boolean = password.isNotEmpty()
