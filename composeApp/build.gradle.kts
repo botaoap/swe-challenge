@@ -79,6 +79,9 @@ kotlin {
             implementation(libs.ktor.client.mock)
 
             implementation(libs.coil.network.okhttp)
+
+            implementation(libs.compose.ui.test.junit4.android)
+            implementation(libs.compose.ui.test.manifest)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
