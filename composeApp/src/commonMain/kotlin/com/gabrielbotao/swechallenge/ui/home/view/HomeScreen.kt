@@ -6,7 +6,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +14,6 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -32,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
+import com.gabrielbotao.swechallenge.components.ErrorComponent
+import com.gabrielbotao.swechallenge.components.LoadingComponent
 import com.gabrielbotao.swechallenge.domain.model.CategoryGroup
 import com.gabrielbotao.swechallenge.ui.home.uistate.ProductsUIState
 import com.gabrielbotao.swechallenge.ui.home.viewmodel.HomeViewModel
@@ -55,47 +54,17 @@ fun HomeScreen(
     ) {
         dataState.value.let { state ->
             when (state) {
-                ProductsUIState.Loading -> Loading(modifier)
+                ProductsUIState.Loading -> LoadingComponent(modifier)
 
-                is ProductsUIState.Success -> CategorizedLazeColumn(state.categories)
+                is ProductsUIState.Success -> {
+                    CategorizedLazeColumn(state.categories)
+                }
 
-                ProductsUIState.Error -> Error(modifier, viewModel)
+                ProductsUIState.Error -> ErrorComponent(
+                    errorMessage = state.toString(),
+                    modifier = modifier
+                ) { viewModel.getProducts() }
             }
-        }
-    }
-}
-
-@Composable
-fun Loading(modifier: Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        CircularProgressIndicator(
-            color = Color.Gray,
-            strokeWidth = 2.dp
-        )
-        Text("Loading...")
-    }
-}
-
-@Composable
-fun Error(modifier: Modifier, viewModel: HomeViewModel) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Error")
-        Button(
-            onClick = {
-                viewModel.getProducts()
-            }
-        ) {
-            Text("Try again")
         }
     }
 }
