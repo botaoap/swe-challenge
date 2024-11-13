@@ -10,6 +10,14 @@
 
 Develop an application capable of performing a login. The user should be able to access a "public" login screen, enter their username and password, and, if the credentials are correct, be redirected to the home screen. The authenticated screen should remain accessible even after closing and reopening the app. You may use a public login API; there are some available like DummyJSON, GitHub public APIs, etc. Once authenticated, display a list of products, which should be retrieved from an external API. A free API can also be found online, like GitHub public APIs.
 
+## Requirements
+
+- Technologies: Kotlin Multiplatform
+- State management: Compose
+- API integration with Ktor
+- Unit testing
+- General project documentation (installation, technologies, architectures, components)
+
 ## About the project
 
 This project is a Kotlin Multiplatform (KMP) application that targets multiple platforms including Android and iOS. It demonstrates the use of shared code across different platforms using MVVM architecture.
