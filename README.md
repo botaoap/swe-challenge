@@ -66,6 +66,11 @@ cd swe-challenge
 - Android: Use an Android emulator or a physical device to run the androidApp.
 - iOS: Use an iOS simulator or a physical device to run the iosApp.
 
+### 6. Login on app
+
+To login you can get the list of user and password below
+- User list [here](https://dummyjson.com/users)
+
 ### Technologies Used
  
 - **Koin**: For dependency injection.
