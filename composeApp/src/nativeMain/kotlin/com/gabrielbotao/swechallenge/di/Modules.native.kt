@@ -18,6 +18,8 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSURLSession
+import platform.Foundation.NSURLSessionConfiguration
 import platform.Foundation.NSUserDomainMask
 
 @OptIn(ExperimentalForeignApi::class)
@@ -45,36 +47,11 @@ actual val platformModule = module {
                         }
                     )
                 }
-//                engine {
-//                    /**
-//                     * Work around to get certificate in Darwin engine
-//                     * Do not do this in prod environment
-//                     */
-//                    val sessionDelegate = object : NSObject(), NSURLSessionDelegateProtocol {
-//                        override fun URLSession(
-//                            session: NSURLSession,
-//                            didReceiveChallenge: NSURLAuthenticationChallenge,
-//                            completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Unit
-//                        ) {
-//                            val serverTrust = didReceiveChallenge.protectionSpace.serverTrust
-//                            if (serverTrust != null) {
-//                                val credential = NSURLCredential.credentialForTrust(serverTrust)
-//                                completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, credential)
-//                            } else {
-//                                completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, null)
-//                            }
-//                        }
-//                    }
-//
-//                    configureSession {
-//                        defaultSessionConfiguration
-//
-//                    }
-//
-//                }
-                /**
-                 * For log request
-                 */
+                engine {
+                    configureRequest {
+//                        setNSURLSession(createSession())
+                    }
+                }
                 /**
                  * For log request
                  */
@@ -86,3 +63,10 @@ actual val platformModule = module {
         )
     }
 }
+
+// Assuming you have a method to create the session
+//fun createSession(): NSURLSession {
+//    val configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+//    val delegate = CustomSessionDelegate() // This is your Swift class
+//    return NSURLSession.sessionWithConfiguration(configuration, delegate, null)
+//}
