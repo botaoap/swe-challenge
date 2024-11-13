@@ -6,6 +6,12 @@
   </a>
 </div>
 
+## The Challenge | Front-end
+
+Develop an application capable of performing a login. The user should be able to access a "public" login screen, enter their username and password, and, if the credentials are correct, be redirected to the home screen. The authenticated screen should remain accessible even after closing and reopening the app. You may use a public login API; there are some available like DummyJSON, GitHub public APIs, etc. Once authenticated, display a list of products, which should be retrieved from an external API. A free API can also be found online, like GitHub public APIs.
+
+## About the project
+
 This project is a Kotlin Multiplatform (KMP) application that targets multiple platforms including Android and iOS. It demonstrates the use of shared code across different platforms using MVVM architecture.
 
 ## Project Structure
@@ -72,7 +78,7 @@ cd swe-challenge
 To login you can get the list of user and password below
 - User list [here](https://dummyjson.com/users)
 
-### Technologies Used
+## Technologies Used
  
 - **Koin**: For dependency injection.
 - **Coil**: To load images from URLs.
@@ -81,12 +87,12 @@ To login you can get the list of user and password below
 - **DummyJson**: Consuming the free API from dummyJson.
 - **Ktor**: To consuming the API's
 
-### DummyJson API Documentation
+## DummyJson API Documentation
 
 - [Login](https://dummyjson.com/docs/auth)
 - [Products](https://dummyjson.com/docs/products)
 
-### Screens
+## Screens
 
 - Splash Screen: Initial screen displayed when the app launches.
 - Login Screen: Screen for user login.
@@ -95,11 +101,11 @@ To login you can get the list of user and password below
   - Platform Screen: Displays platform-specific information.
   - Profile Screen: User profile screen.
 
-### Features
+## Features
 
 Persistent Login: The application maintains the login state even if the app is killed. Users will be logged in automatically unless they log out.
 
-### Unit Tests
+## Unit Tests
 
 Unit tests are created for the following layers:
 - Repositories
@@ -108,11 +114,11 @@ Unit tests are created for the following layers:
 
 These tests are implemented for Android (androidUnitTest).
 
-### SSL Certificate Workaround
+## SSL Certificate Workaround
 
 To fetch data from dummyJson, a workaround for the SSL certificate is implemented. This is not recommended for production environments.
 
-### Resources and Documentation
+## Resources and Documentation
 
 The following resources were used to create this project and gather information:
 
@@ -136,10 +142,10 @@ The following resources were used to create this project and gather information:
 - [Saving Objects in DataStore](https://medium.com/supercharges-mobile-product-guide/new-way-of-storing-data-in-android-jetpack-datastore-a1073d09393d)
 - [Mocking with MockK](https://mockk.io/)
 
-### License
+## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-### Contact
+## Contact
 
 For any questions or suggestions, please contact gabrielbotao@gmail.com
