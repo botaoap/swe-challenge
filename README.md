@@ -85,9 +85,9 @@ cd swe-challenge
 - Splash Screen: Initial screen displayed when the app launches.
 - Login Screen: Screen for user login.
 - Main Screen: Contains bottom navigation to show three other screens:
-- - Home Screen: Main content screen.
-- - Platform Screen: Displays platform-specific information.
-- - Profile Screen: User profile screen.
+  - Home Screen: Main content screen.
+  - Platform Screen: Displays platform-specific information.
+  - Profile Screen: User profile screen.
 
 ### Features
 
