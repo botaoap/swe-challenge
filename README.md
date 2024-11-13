@@ -42,8 +42,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 
 ### 1. Create the Project
 
-To create the initial project, use the Kotlin Multiplatform wizard available [here](https://kmp.jetbrains.com/?_gl=1*1swua1s*_gcl_au*MTY2MTI3Mjc2MC4xNzI2NzUxOTU5*_ga*MTU5MjM3Njc3Mi4xNzI2NzUxOTU3*_ga_9J976DJZ68*MTczMTQ1NjQwNC42LjEuMTczMTQ1NzMzOS41NS4wLjA.).
-Or follow step by step [here](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html)
+- To create the initial project, use the Kotlin Multiplatform wizard available [here](https://kmp.jetbrains.com/?_gl=1*1swua1s*_gcl_au*MTY2MTI3Mjc2MC4xNzI2NzUxOTU5*_ga*MTU5MjM3Njc3Mi4xNzI2NzUxOTU3*_ga_9J976DJZ68*MTczMTQ1NjQwNC42LjEuMTczMTQ1NzMzOS41NS4wLjA.).
+- Or follow step by step [here](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html)
 
 ### 2. Clone the Repository
 
@@ -53,27 +53,32 @@ cd swe-challenge
 ```
 ### 3. Open the Project
 
-Android Studio: Open the project by selecting the build.gradle.kts file in the root directory.
-Xcode: Open the iosApp/iosApp.xcworkspace file.
+- Android Studio: Open the project by selecting the build.gradle.kts file in the root directory.
+- Xcode: Open the iosApp/iosApp.xcworkspace file.
 
 ### 4. Build the Project
 
-Android: Use Android Studio to build the project. Select the androidApp module and click on the “Run” button.
-iOS: Use Xcode to build the project. Select the iosApp target and click on the “Run” button.
+- Android: Use Android Studio to build the project. Select the androidApp module and click on the “Run” button.
+- iOS: Use Xcode to build the project. Select the iosApp target and click on the “Run” button.
 
 ### 5. Run the Project
 
-Android: Use an Android emulator or a physical device to run the androidApp.
-iOS: Use an iOS simulator or a physical device to run the iosApp.
+- Android: Use an Android emulator or a physical device to run the androidApp.
+- iOS: Use an iOS simulator or a physical device to run the iosApp.
 
 ### Technologies Used
  
-Koin: For dependency injection.
-Coil: To load images from URLs.
-DataStore: To persist login and data inside the app.
-Compose Multiplatform: To create a single codebase in Jetpack Compose that transforms into Android and iOS apps.
-DummyJson: Consuming the free API from dummyJson.
-Ktor: To consuming the API's
+- **Koin**: For dependency injection.
+- **Coil**: To load images from URLs.
+- **DataStore**: To persist login and data inside the app.
+- **Compose Multiplatform**: To create a single codebase in Jetpack Compose that transforms into Android and iOS apps.
+- **DummyJson**: Consuming the free API from dummyJson.
+- **Ktor**: To consuming the API's
+
+### DummyJson API Documentation
+
+- [Login](https://dummyjson.com/docs/auth)
+- [Products](https://dummyjson.com/docs/products)
 
 ### Screens
 
