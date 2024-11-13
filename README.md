@@ -126,6 +126,8 @@ These tests are implemented for Android (androidUnitTest).
 
 To fetch data from dummyJson, a workaround for the SSL certificate is implemented. This is not recommended for production environments.
 
+This solution is working only on Android; iOS is not working yet.
+
 ## Resources and Documentation
 
 The following resources were used to create this project and gather information:
