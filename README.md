@@ -16,6 +16,7 @@ This project is a Kotlin Multiplatform (KMP) application that targets multiple p
 - **androidUnitTest**: Contains the Android-specific unit test code and configurations.
 - **iosMain**: Contains the iOS-specific code and configurations.
 - **nativeMain**: Contains the iOS-specific code and configurations too.
+
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)
 
 ## Project Structure inside commonMain
