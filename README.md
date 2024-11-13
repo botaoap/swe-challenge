@@ -1,8 +1,8 @@
 # KMP Project - SWE Challnege
 
 <div>
-  <a href="https://github.com/botaoap/swe-challenge/tree/main">
-  <img src="https://img.shields.io/github/repo-size/botaoap/swe-challenge/tree/main">
+  <a href="https://github.com/botaoap/swe-challenge">
+  <img src="https://img.shields.io/github/repo-size/botaoap/swe-challenge">
   </a>
 </div>
 
