@@ -1,4 +1,4 @@
-# KMP Project - SWE Challnege
+# KMP Project - SWE Challenge
 
 <div>
   <a href="https://github.com/botaoap/swe-challenge">
